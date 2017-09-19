@@ -14,5 +14,5 @@ RUN cd && set -ex && \
   mkdir -p /etc/pki/tls/certs/ && \
   rm -rf -- /var/cache/apk/* /var/lib/apk/* /etc/apk/cache/* /root/.cache
 
-ENTRYPOINT ["/sbin/tini", "-s", "-g", "--"]
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
 
