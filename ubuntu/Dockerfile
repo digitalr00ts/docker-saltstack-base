@@ -9,8 +9,6 @@ ENV LANG=en_US.UTF-8 \
 
 RUN cd && set -ex && \
   export INITRD=no && \
-  mkdir -p /etc/container_environment && \
-  echo -n no > /etc/container_environment/INITRD && \
   \
   apt-get update && \
   \
