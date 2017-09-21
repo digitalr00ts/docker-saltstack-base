@@ -9,15 +9,14 @@ ENV LANG=en_US.UTF-8 \
 
 RUN cd && set -ex && \
   export INITRD=no && \
-  \
-  apt-get update && \
+  export debian_frontend=noninteractive && \
   \
   dpkg-divert --local --rename --add /sbin/initctl && \
   ln -sf /bin/true /sbin/initctl && \
-  \
   dpkg-divert --local --rename --add /usr/bin/ischroot && \
   ln -sf /bin/true /usr/bin/ischroot && \
   \
+  apt-get update && \
   apt-get install -y --no-install-recommends language-pack-en && \
   locale-gen en_US && \
   update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 && \
