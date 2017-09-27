@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:xenial
 
 LABEL maintainer="carlos@digitalr00ts.com"
 
@@ -24,17 +24,17 @@ RUN cd && set -ex && \
   apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold" && \
   apt-get install -y --no-install-recommends python wget && \
   \
-  apt-get install -y \
+  apt-get install -y python-requests && \
+  apt-get install -y --no-install-recommends \
   # salt-common #
-  python-dateutil python-jinja2 python-msgpack python-pkg-resources python-requests python-yaml python-psutil \
+  python-dateutil python-jinja2 python-msgpack python-pkg-resources python-yaml python-psutil \
   #python-mako \
   # salt-master #
-  python-crypto python-zmq \
+  python-crypto \
   #python-git \
-  # salt-api (recommends only)
+  # salt-api # (recommends only)
   #python-cherrypy3 \
-  # salt-cloud #
-  python-libcloud \
+  # salt-cloud # (recommends and suggests)
   #python-netaddr \
   #python-botocore \
   && \
@@ -44,9 +44,9 @@ RUN cd && set -ex && \
   gpg --verify tini_0.16.1-amd64.deb.asc && \
   dpkg -i tini_0.16.1-amd64.deb && \
   rm -f -- tini_0.16.1-amd64.deb.asc tini_0.16.1-amd64.deb && \
+  \
   apt-get remove -y wget && \
   apt-get autoremove -y && \
-  \
   apt-get clean && \
   rm -rf -- /tmp/* /var/tmp/* /var/lib/apt/lists/* && \
   rm -f -- /etc/ssh/ssh_host_*
