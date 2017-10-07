@@ -2,9 +2,7 @@ FROM ubuntu:xenial
 
 LABEL maintainer="carlos@digitalr00ts.com"
 
-ENV LANG=en_US.UTF-8 \
-    LANGUAGE=en_US:en \
-    LC_ALL=en_US.UTF-8 \
+ENV LC_ALL=C.UTF-8 \
     unicode=YES
 
 RUN cd && set -ex && \
@@ -17,9 +15,6 @@ RUN cd && set -ex && \
   ln -sf /bin/true /usr/bin/ischroot && \
   \
   apt-get update && \
-  apt-get install -y --no-install-recommends language-pack-en && \
-  locale-gen en_US && \
-  update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 && \
   apt-get install -y --no-install-recommends apt-transport-https ca-certificates && \
   apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold" && \
   apt-get install -y --no-install-recommends python wget && \
@@ -31,11 +26,11 @@ RUN cd && set -ex && \
   #python-mako \
   # salt-master #
   python-crypto \
-  #python-git \
+  python-git \
   # salt-api # (recommends only)
   #python-cherrypy3 \
   # salt-cloud # (recommends and suggests)
-  #python-netaddr \
+  python-netaddr \
   #python-botocore \
   && \
   wget --https-only --no-cache --no-verbose https://github.com/krallin/tini/releases/download/v0.16.1/tini_0.16.1-amd64.deb && \
