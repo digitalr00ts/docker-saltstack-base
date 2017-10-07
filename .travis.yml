@@ -1,0 +1,40 @@
+sudo: required
+language: python
+services:
+- docker
+env:
+- distro=alpine
+- distro=ubuntu
+stages:
+- test
+- name: deploy
+  if: branch = develop
+before_install:
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
+  $(lsb_release -cs) stable"
+- sudo apt-get update
+- sudo apt-get -y install --only-upgrade openssl curl
+- sudo apt-get -y install docker-ce
+- docker version
+script:
+- docker build --force-rm --pull --rm --tag salt-base:${distro} ${distro}/
+- docker run --rm -it salt-base:${distro} uname -a
+jobs:
+  include:
+  - stage: deploy
+    env:
+    - distro=all
+    before_install: ''
+    install: ''
+    script:
+    - ".travis/deploy.sh"
+    after_failure: ''
+branches:
+  except:
+  - master
+notifications:
+  slack:
+    secure: aVhGm4s/jIzXpuYF6KzaljumtwBjRcovpq5BYbvOtDsp/5xwGoNgoyLHLCeBuC7LYzk1MDR3KWQzwx9ygEfcjiHISFcWYf8RXPK6xJ8FV0yxd4C0TvzZ0dlTS+OynGTA4fO6A3SrDXR2+ywouspqV3qgHQSPwj3oTL5nm/2MY/l5RZR/Vq1mANzGYz1GSX1DiREbQelINUlo7SofWmK3bWP1ZzMhYgGTlpLQeLxIE4yvxcgRf0JcNcP8qKIVilxEtKGxExzrkMosZ+R7H58DMAdeHmt9ckhFVbwO/xJnpg4nYxdcyVwzeBWv2XBY/AWqWDvZsrOwdvWuPiwykKnVK0hLCuiRJd1XPleFPsEc+f27iNeLun1Vabj6YvLZvhHSCDJh1qkhdbBvGvcbSgCIf9ygBEzk3xYrlDfZ4D5BhWqQLtKdqyd5ZMZERq3iXeFpLLXella/Ldl5qyI/sfo1hq7Oo4YWGiMlhqB8s1TH709m2cTdi6hgIUsW3kOmiXjnbbc2KBFoouFDIzP9XtsKWDnh2if87EoIG/+AmlduUp9IlwYloPeU8rZgTYOvxUeIPsqvxZ4uLSU0lfa9MdxR531m0NQ5czmVP1l9+OWYnUm1oPEXfP3/HpvZc0rfR+6E6ufOwVu/LmmMR952TcJbBf+JVoodn4QPJg6FnVigA6E=
+  on_success: always
+  on_failure: always
