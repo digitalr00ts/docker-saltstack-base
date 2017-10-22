@@ -3,7 +3,7 @@ FROM digitalr00ts/os:ubuntu
 RUN cd && set -ex && \
   apt-get update && \
   apt-get install -y --no-install-recommends apt-transport-https ca-certificates && \
-  apt-get install -y --no-install-recommends python && \
+  apt-get install -y --no-install-recommends python git && \
   apt-get install -y python-requests && \
   apt-get install -y --no-install-recommends \
   # salt-common #
