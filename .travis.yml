@@ -14,18 +14,19 @@ before_install:
 - sudo sh -c 'echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release
   -cs) stable" > /etc/apt/sources.list.d/docker.list'
 - sudo apt-get update -o Dir::Etc::sourcelist=/etc/apt/sources.list.d/docker.list
+install:
 - sudo apt-get -y install docker-ce
 - docker version
-install: true
 script:
-- docker build --force-rm --pull --rm --tag salt-base:${distro} ${distro}/
-- docker run --rm -it salt-base:${distro} uname -a
+- docker image build --pull --tag salt-base:${distro} ${distro}/
+- docker container run --rm -it salt-base:${distro} uname -a
 jobs:
   include:
   - stage: deploy
     env:
     - distro=all
-    before_install: true
+    before_install: ''
+    install: true
     script:
     - ".travis/deploy.sh"
 branches:
