@@ -17,6 +17,7 @@ before_install:
 - sudo apt-get -y install --only-upgrade openssl curl
 - sudo apt-get -y install docker-ce
 - docker version
+install: true
 script:
 - docker build --force-rm --pull --rm --tag salt-base:${distro} ${distro}/
 - docker run --rm -it salt-base:${distro} uname -a
@@ -25,11 +26,9 @@ jobs:
   - stage: deploy
     env:
     - distro=all
-    before_install: ''
-    install: ''
+    before_install: true
     script:
     - ".travis/deploy.sh"
-    after_failure: ''
 branches:
   except:
   - master
