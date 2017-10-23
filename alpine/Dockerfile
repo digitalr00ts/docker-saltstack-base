@@ -5,7 +5,7 @@ RUN cd && set -ex && \
   mkdir -p -- /srv/etc/salt/master.d/ \
     /srv/etc/salt/ssh.d/ /srv/etc/salt/pki/master/ \
     /srv/salt/ /srv/pillar/ \
-    /var/cache/salt/master/ && \
+    /var/cache/salt/master/ 
 
 ENTRYPOINT ["/sbin/tini", "-g", "--"]
 
