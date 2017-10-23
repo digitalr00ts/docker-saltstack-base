@@ -6,6 +6,7 @@ RUN cd && set -ex && \
   apt-get install -y --no-install-recommends python && \
   apt-get install -y python-requests && \
   apt-get install -y --no-install-recommends \
+  python-futures \
   # salt-common #
   python-dateutil python-jinja2 python-msgpack python-pkg-resources python-yaml python-psutil \
   #python-mako \
