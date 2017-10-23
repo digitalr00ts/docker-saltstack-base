@@ -11,9 +11,10 @@ RUN cd && set -ex && \
   python-dateutil python-jinja2 python-msgpack python-pkg-resources python-yaml python-psutil \
   #python-mako \
   && \
-  mkdir -p -- /srv/etc/salt/master.d/ /srv/etc/salt/pki/ \
-    /srv/etc/salt/ssh.d/ /srv/salt/ /srv/pillar/ \
-    /etc/salt/ /var/cache/salt/master/ && \
+  mkdir -p -- /srv/etc/salt/master.d/ \
+    /srv/etc/salt/ssh.d/ /srv/etc/salt/pki/master/ \
+    /srv/salt/ /srv/pillar/ \
+    /var/cache/salt/master/ && \
   apt-get purge -y apt-transport-https ca-certificates && \
   apt-get autoremove -y && \
   apt-get clean && \
